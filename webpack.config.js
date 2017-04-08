@@ -1,56 +1,28 @@
-const path = require('path');
-const webpack = require('webpack');
-
 module.exports = {
-    entry: {
-        app: [
-            'react-hot-loader/patch',
-            'webpack-dev-server/client?http://localhost:8080',
-            'webpack/hot/only-dev-server',
-            './index'
-        ]
-    },
+    entry: './src/index.jsx',
+
     output: {
-        path: path.resolve(__dirname, "public"),
-        filename: "bundle.js",
-        publicPath: "/",
+        filename: 'bundle.js',
+        path: './public',
     },
+
     module: {
-        rules: [
+        loaders: [
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                use: ['babel-loader']
-            },
-            {
-                test: /\.s[ca]ss$/,
-                exclude: /node_modules/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                loaders: ['babel-loader']
             }
-        ],
+        ]
     },
-    resolve: {
-        extensions: [".js", ".json", ".jsx", ".css"]
-    },
-    devtool: "inline-source-map",
-    context: path.resolve(__dirname, "src"),
-    target: "web",
-    stats: "errors-only",
+
+    devtool: 'inline-source-map',
+
     devServer: {
-        proxy: {
-            "/api": {
-                target: "http://localhost:3000",
-                pathRewrite: {"^/api": ""}
-            }
-        },
-        port: 8080,
-        contentBase: path.join(__dirname, "public"),
-        publicPath: "/",
-        historyApiFallback: true,
-        hot: true,
+        historyApiFallback: true
     },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin()
-    ]
+
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    }
 };
